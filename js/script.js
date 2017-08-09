@@ -20,11 +20,10 @@ function loadData() {
     $greeting.text = ("Do you want to live in " + loc + "?");
     $body.append('<img class="bgimg" src="http://maps.googleapis.com/maps/api/streetview?size=600x300&location='+loc+'">');
 
-    var prefix = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
-    var param = "?api-key=bbeca2d23223415ba3f565922deceb91"
+    var nyturl = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 
     // Getting the articles related to
-    $.getJSON(prefix, {
+    $.getJSON(nyturl, {
       'api-key': 'bbeca2d23223415ba3f565922deceb91',
       'q': city,
       'format': 'json'
@@ -41,6 +40,20 @@ function loadData() {
     }).fail(function(){
       $nytHeaderElem.text('New York Times Articles could not be loaded');
     });
+
+    var wikiurl = 'https://en.wikipedia.org/w/api.php?format=json&action=query&list=search&srsearch='+city+ '&callback=?';
+    // Getting related wiki pages for the right column
+    $.ajax({
+      url: wikiurl,
+      dataType: 'jsonp',
+      success: function(data) {
+        $.each(data.query.search, function(i, article){
+          $('#wikipedia-links').append('<li><a href=""https://en.wikipedia.org/wiki/' +
+            article.title + '">' + article.title +
+            '</a></li>');
+        });
+      }
+    })
 
     return false;
 };
