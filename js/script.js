@@ -46,7 +46,7 @@ function loadData() {
     var wikiRequestTimeout = setTimeout(function(){
       $wikiElem.text('Failed to get wikiepedia resources');
     }, 8000);
-    
+
     // Getting related wiki pages for the right column
     $.ajax({
       url: wikiurl,
