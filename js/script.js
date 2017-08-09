@@ -42,6 +42,11 @@ function loadData() {
     });
 
     var wikiurl = 'https://en.wikipedia.org/w/api.php?format=json&action=query&list=search&srsearch='+city+ '&callback=?';
+
+    var wikiRequestTimeout = setTimeout(function(){
+      $wikiElem.text('Failed to get wikiepedia resources');
+    }, 8000);
+    
     // Getting related wiki pages for the right column
     $.ajax({
       url: wikiurl,
@@ -52,6 +57,8 @@ function loadData() {
             article.title + '">' + article.title +
             '</a></li>');
         });
+
+        clearTimeout(wikiRequestTimeout);
       }
     })
 
